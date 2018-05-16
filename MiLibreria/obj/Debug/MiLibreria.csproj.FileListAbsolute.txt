@@ -1,0 +1,6 @@
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\bin\Debug\MiLibreria.dll
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\bin\Debug\MiLibreria.pdb
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\obj\Debug\MiLibreria.csproj.CoreCompileInputs.cache
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\obj\Debug\MiLibreria.dll
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\obj\Debug\MiLibreria.pdb
+c:\users\user\source\repos\ConsoleApp2\MiLibreria\obj\Debug\MiLibreria.csprojAssemblyReference.cache

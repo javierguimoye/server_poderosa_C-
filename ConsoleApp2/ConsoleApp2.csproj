@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE052DD2-718A-4194-B50A-03098963D766}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleApp2</RootNamespace>
+    <AssemblyName>ConsoleApp2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MiLibreria">
+      <HintPath>..\MiLibreria\bin\Debug\MiLibreria.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ADM_Usuarios_Action.cs" />
+    <Compile Include="Controllers\GS_OC_CAB_OBS_COMPORTAMIENTO_Action.cs" />
+    <Compile Include="Controllers\GS_OC_DET_OBS_COMPORTAMIENTO_Action.cs" />
+    <Compile Include="Controllers\MCO_ACTIVIDAD_Action.cs" />
+    <Compile Include="Controllers\MCP_PROVEEDORES_Action.cs" />
+    <Compile Include="Controllers\MGS_OC_CATEGORIA_ACTO_CONDICION_Action.cs" />
+    <Compile Include="Controllers\MPM_Labores_Mina_Action.cs" />
+    <Compile Include="Controllers\MRH_TRAB_COMP_Action.cs" />
+    <Compile Include="Controllers\M_PROCESOS_SIG_DPTOS_Action.cs" />
+    <Compile Include="Controllers\M_ZONAS_Action.cs" />
+    <Compile Include="Dao\GS_OC_CAB_OBS_COMPORTAMIENTO_Dao.cs" />
+    <Compile Include="Dao\GS_OC_DET_OBS_COMPORTAMIENTO_Dao.cs" />
+    <Compile Include="Dao\MCP_PROVEEDORES_Dao.cs" />
+    <Compile Include="Dao\MPM_Labores_Mina_Dao.cs" />
+    <Compile Include="Dao\MGS_OC_CATEGORIA_ACTO_CONDICION_Dao.cs" />
+    <Compile Include="Dao\MCO_ACTIVIDAD_Dao.cs" />
+    <Compile Include="Dao\MRH_TRAB_COMP_Dao.cs" />
+    <Compile Include="Dao\M_ZONAS_Dao.cs" />
+    <Compile Include="Dao\M_PROCESOS_SIG_DPTOS_Dao.cs" />
+    <Compile Include="Dao\ADM_Usuarios_Dao.cs" />
+    <Compile Include="Dao\ConsultasSQL.cs" />
+    <Compile Include="Models\ADM_Usuarios_Bean.cs" />
+    <Compile Include="Models\GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.cs" />
+    <Compile Include="Models\GS_OC_DET_OBS_COMPORTAMIENTO_Bean.cs" />
+    <Compile Include="Models\GS_OC_DET_OBS_COMPORTAMIENTO_BeanJSON.cs" />
+    <Compile Include="Models\GS_OC_DET_OBS_COMPORTAMIENTO_BeanJSON_Collections.cs" />
+    <Compile Include="Models\MCO_ACTIVIDAD_Bean.cs" />
+    <Compile Include="Models\MCP_PROVEEDORES_Bean.cs" />
+    <Compile Include="Models\MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.cs" />
+    <Compile Include="Models\MPM_Labores_Mina_Bean.cs" />
+    <Compile Include="Models\MRH_TRAB_COMP_Bean.cs" />
+    <Compile Include="Models\M_PROCESOS_SIG_DPTOS_Bean.cs" />
+    <Compile Include="Models\M_ZONAS_Bean.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
