@@ -8,6 +8,7 @@ namespace ConsoleApp2.Models
 {
     class GS_OC_CAB_OBS_COMPORTAMIENTO_Bean
     {
+        public String ID { get; set; }
         public String CIA_ID { get; set; }
         public String ANNOMES { get; set; }
         public String OBSERVACION_ID { get; set; }

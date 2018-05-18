@@ -29,30 +29,33 @@ namespace ConsoleApp2
 
         static bool syncMes = true;
         static DateTime fecha;
-        static MGS_OC_CATEGORIA_ACTO_CONDICION_Action ca ;
+        static MGS_OC_CATEGORIA_ACTO_CONDICION_Action ca;
         static M_PROCESOS_SIG_DPTOS_Action sd;
-        static M_ZONAS_Action za ;
+        static M_ZONAS_Action za;
         static MCO_ACTIVIDAD_Action ma;
-        static ADM_Usuarios_Action ua ;
-        static MRH_TRAB_COMP_Action mt ;
-        static MPM_Labores_Mina_Action ml ;
+        static ADM_Usuarios_Action ua;
+        static MRH_TRAB_COMP_Action mt;
+        static MPM_Labores_Mina_Action ml;
         static MCP_PROVEEDORES_Action mp;
         static GS_OC_CAB_OBS_COMPORTAMIENTO_Action cc;
         static GS_OC_DET_OBS_COMPORTAMIENTO_Action dc;
-        static int cont=0;
-        static int contTotal=0;
+        static int cont = 0;
+        static int contTotal = 0;
         static int queda = 0;
         static int auxCont = 0;
 
-        static void Main(string[] args){
-           var th = new Thread(ExecuteInForeground);
-           th.Start();
+        static void Main(string[] args)
+        {
+            var th = new Thread(ExecuteInForeground);
+            th.Start();
         }
 
 
-        private static void ExecuteInForeground(){
+        private static void ExecuteInForeground()
+        {
 
-            while (true){
+            while (true)
+            {
 
                 fecha = DateTime.Now;
                 ca = new MGS_OC_CATEGORIA_ACTO_CONDICION_Action();
@@ -67,7 +70,9 @@ namespace ConsoleApp2
                 dc = new GS_OC_DET_OBS_COMPORTAMIENTO_Action();
 
                 List<M_PROCESOS_SIG_DPTOS_Bean> lstM_PROCESOS_SIG_DPTOS = sd.ConsultarTODOS_M_PROCESOS_SIG_DPTOSAction();
-                if (syncMes){
+                /*
+                if (syncMes)
+                {
                     Console.WriteLine("\n**** ENVIANDO DATOS DEL MES ***");
 
                     List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean> lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean = ca.ConsultarMes_MGS_OC_CATEGORIA_ACTO_CONDICIONAction(fecha.Month + "", fecha.Year + "");
@@ -79,7 +84,7 @@ namespace ConsoleApp2
                     List<MCP_PROVEEDORES_Bean> lstMes_MCP_PROVEEDORES_Bean = mp.ConsultarMes_MCP_PROVEEDORESAction(fecha.Month + "", fecha.Year + "");
                     List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean = dc.ConsultarMes_GS_OC_DET_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "");
                     List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> lstGSMes_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean = cc.ConsultarMes_GS_OC_CAB_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "");
-            
+
                     Console.WriteLine("cantidad total de categorias del mes: " + lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count);
                     Console.WriteLine("cantidad total de zonas del mes: " + lstMes_m_ZONAS_Beans.Count);
                     Console.WriteLine("cantidad total de actividad del mes: " + lstMes_MCO_ACTIVIDAD_Bean.Count);
@@ -90,7 +95,7 @@ namespace ConsoleApp2
                     Console.WriteLine("cantidad total de detalles del mes: " + lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean.Count);
                     Console.WriteLine("cantidad total de cabeceras del mes: " + lstGSMes_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count);
                     Console.WriteLine("cantidad total de procesos: " + lstM_PROCESOS_SIG_DPTOS.Count);
-                    /************************ ENVIANDO  CATEGORIAS **************************/
+                    ///*********************** ENVIANDO  CATEGORIAS **************************
 
                     List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean> lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send = new List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean>();
                     contTotal = lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count;
@@ -120,7 +125,8 @@ namespace ConsoleApp2
                                 if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
                                 auxCont++;
                             }
-                        }else
+                        }
+                        else
                         {
                             lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send.Add(bean);
                             PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
@@ -129,8 +135,8 @@ namespace ConsoleApp2
                     Console.WriteLine("<-- datos de categorias enviados ");
                     cont = 0;
 
-/************************ ENVIANDO ZONAS **************************/
-                  
+                    ///********************** ENVIANDO ZONAS **************************
+
                     List<M_ZONAS_Bean> m_ZONAS_Beans_send = new List<M_ZONAS_Bean>();
                     contTotal = lstMes_m_ZONAS_Beans.Count;
                     Console.WriteLine("\n");
@@ -161,7 +167,8 @@ namespace ConsoleApp2
                                 auxCont++;
                             }
                         }
-                        else {
+                        else
+                        {
                             m_ZONAS_Beans_send.Add(bean);
                             PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_ZONAS", JsonConvert.SerializeObject(m_ZONAS_Beans_send));
                         }
@@ -169,8 +176,8 @@ namespace ConsoleApp2
                     Console.WriteLine("<-- datos de zonas enviados ");
                     cont = 0;
 
-                  
-/************************ ENVIANDO ACTIVIDAD **************************/
+
+                    ///*********************** ENVIANDO ACTIVIDAD **************************
 
                     List<MCO_ACTIVIDAD_Bean> MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
                     contTotal = lstMes_MCO_ACTIVIDAD_Bean.Count;
@@ -182,27 +189,29 @@ namespace ConsoleApp2
 
                         if (lstMes_MCO_ACTIVIDAD_Bean.Count > 20)
                         {
-                                if (cont < 20)
-                                {
-                                    MCO_ACTIVIDAD_Bean_send.Add(bean);
-                                    cont++;
-                                }
-                                else
-                                {
-                                    MCO_ACTIVIDAD_Bean_send.Add(bean);
-                                    contTotal = contTotal - (cont + 1);
-                                    PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
-                                    cont = 0;
-                                    MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
-                                }
+                            if (cont < 20)
+                            {
+                                MCO_ACTIVIDAD_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MCO_ACTIVIDAD_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
+                                cont = 0;
+                                MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
+                            }
 
-                                if (cont <= 19 && contTotal < 20)
-                                {
-                                    if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
-                                    auxCont++;
-                                }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
+                                auxCont++;
+                            }
 
-                        }else{
+                        }
+                        else
+                        {
                             MCO_ACTIVIDAD_Bean_send.Add(bean);
                             PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
                         }
@@ -210,8 +219,8 @@ namespace ConsoleApp2
                     Console.WriteLine("<-- datos de actividad enviados ");
                     cont = 0;
 
-           
-/************************ ENVIANDO USUARIOS **************************/
+
+                    ///*********************** ENVIANDO USUARIOS **************************
 
                     List<ADM_Usuarios_Bean> ADM_Usuarios_Bean_send = new List<ADM_Usuarios_Bean>();
                     contTotal = lstMes_ADM_Usuarios_Bean.Count;
@@ -220,7 +229,7 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de usuario");
                     foreach (ADM_Usuarios_Bean bean in lstMes_ADM_Usuarios_Bean)
                     {
-                        if (lstMes_ADM_Usuarios_Bean.Count >20)
+                        if (lstMes_ADM_Usuarios_Bean.Count > 20)
                         {
                             if (cont < 20)
                             {
@@ -241,7 +250,8 @@ namespace ConsoleApp2
                                 if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
                                 auxCont++;
                             }
-                        }else
+                        }
+                        else
                         {
                             ADM_Usuarios_Bean_send.Add(bean);
                             PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
@@ -250,7 +260,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de usuarios enviados ");
                     cont = 0;
 
-/************************ ENVIANDO trabajos **************************/
+                    ///************************ ENVIANDO trabajos **************************
 
                     List<MRH_TRAB_COMP_Bean> MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
                     contTotal = lstMes_MRH_TRAB_COMP_Bean.Count;
@@ -259,27 +269,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de trabajos");
                     foreach (MRH_TRAB_COMP_Bean bean in lstMes_MRH_TRAB_COMP_Bean)
                     {
-                        if(lstMes_MRH_TRAB_COMP_Bean.Count>20)
+                        if (lstMes_MRH_TRAB_COMP_Bean.Count > 20)
                         {
                             if (cont < 20)
-                        {
-                            MRH_TRAB_COMP_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MRH_TRAB_COMP_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
-                            cont = 0;
-                            MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
-                        }
+                            {
+                                MRH_TRAB_COMP_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MRH_TRAB_COMP_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
+                                cont = 0;
+                                MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -290,7 +300,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de trabajos enviados ");
                     cont = 0;
 
-  /************************ ENVIANDO Labores **************************/
+                    ///*********************** ENVIANDO Labores **************************
                     List<MPM_Labores_Mina_Bean> MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
                     contTotal = lstMes_MPM_Labores_Mina_Bean.Count;
                     Console.WriteLine("\n");
@@ -298,26 +308,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de minas");
                     foreach (MPM_Labores_Mina_Bean bean in lstMes_MPM_Labores_Mina_Bean)
                     {
-                        if (lstMes_MPM_Labores_Mina_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstMes_MPM_Labores_Mina_Bean.Count > 20)
                         {
-                            MPM_Labores_Mina_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MPM_Labores_Mina_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
-                            cont = 0;
-                            MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MPM_Labores_Mina_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MPM_Labores_Mina_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
+                                cont = 0;
+                                MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -328,8 +339,8 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de trabajos minas ");
                     cont = 0;
 
-/************************ ENVIANDO Proveedores **************************/
-                 
+                    ///************************ ENVIANDO Proveedores **************************
+
                     List<MCP_PROVEEDORES_Bean> MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
                     contTotal = lstMes_MCP_PROVEEDORES_Bean.Count;
                     Console.WriteLine("\n");
@@ -338,26 +349,27 @@ namespace ConsoleApp2
                     foreach (MCP_PROVEEDORES_Bean bean in lstMes_MCP_PROVEEDORES_Bean)
                     {
 
-                        if (lstMes_MCP_PROVEEDORES_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstMes_MCP_PROVEEDORES_Bean.Count > 20)
                         {
-                            MCP_PROVEEDORES_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MCP_PROVEEDORES_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
-                            cont = 0;
-                            MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MCP_PROVEEDORES_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MCP_PROVEEDORES_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
+                                cont = 0;
+                                MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -369,7 +381,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de proveedores enviados ");
                     cont = 0;
 
-/************************ ENVIANDO detalles comportamiento **************************/
+                    ///************************ ENVIANDO detalles comportamiento **************************
                     List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
                     contTotal = lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean.Count;
                     Console.WriteLine("\n ");
@@ -378,26 +390,27 @@ namespace ConsoleApp2
                     foreach (GS_OC_DET_OBS_COMPORTAMIENTO_Bean bean in lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean)
                     {
 
-                        if (lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean.Count>20) { 
-                        if (cont < 20)
+                        if (lstGSMes_OC_DET_OBS_COMPORTAMIENTO_Bean.Count > 20)
                         {
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean); 
-                             contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
-                            cont = 0;
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
+                                cont = 0;
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -410,7 +423,7 @@ namespace ConsoleApp2
                     cont = 0;
 
 
-  /************************ ENVIANDO cabecera **************************/
+                    ///*********************** ENVIANDO cabecera **************************
                     List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean>();
                     contTotal = lstGSMes_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count;
                     Console.WriteLine("\n ");
@@ -452,31 +465,33 @@ namespace ConsoleApp2
 
 
                     syncMes = false;
-                           }else{
-                          Console.WriteLine("\n**** ENVIANDO DATOS DIARIOS ***");
-                          List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean> lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean = ca.ConsultarDia_MGS_OC_CATEGORIA_ACTO_CONDICIONAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<M_ZONAS_Bean> lstDia_m_ZONAS_Beans = za.ConsultarDia_M_ZONASAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<MCO_ACTIVIDAD_Bean> lstDia_MCO_ACTIVIDAD_Bean = ma.ConsultarDia_MCO_ACTIVIDADAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<ADM_Usuarios_Bean> lstDia_ADM_Usuarios_Bean = ua.ConsultarDia_MCO_ACTIVIDADAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<MRH_TRAB_COMP_Bean> lstDia_MRH_TRAB_COMP_Bean = mt.ConsultarDia_MRH_TRAB_COMPDAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<MPM_Labores_Mina_Bean> lstDia_MPM_Labores_Mina_Bean = ml.ConsultarDia_MPM_Labores_MinaAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<MCP_PROVEEDORES_Bean> lstDia_MCP_PROVEEDORES_Bean = mp.ConsultarDia_MCP_PROVEEDORESAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean = dc.ConsultarDia_GS_OC_DET_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
-                          List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean = cc.ConsultarDia_GS_OC_CAB_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                }
+                else
+                {
+                    Console.WriteLine("\n**** ENVIANDO DATOS DIARIOS ***");
+                    List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean> lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean = ca.ConsultarDia_MGS_OC_CATEGORIA_ACTO_CONDICIONAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<M_ZONAS_Bean> lstDia_m_ZONAS_Beans = za.ConsultarDia_M_ZONASAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<MCO_ACTIVIDAD_Bean> lstDia_MCO_ACTIVIDAD_Bean = ma.ConsultarDia_MCO_ACTIVIDADAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<ADM_Usuarios_Bean> lstDia_ADM_Usuarios_Bean = ua.ConsultarDia_MCO_ACTIVIDADAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<MRH_TRAB_COMP_Bean> lstDia_MRH_TRAB_COMP_Bean = mt.ConsultarDia_MRH_TRAB_COMPDAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<MPM_Labores_Mina_Bean> lstDia_MPM_Labores_Mina_Bean = ml.ConsultarDia_MPM_Labores_MinaAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<MCP_PROVEEDORES_Bean> lstDia_MCP_PROVEEDORES_Bean = mp.ConsultarDia_MCP_PROVEEDORESAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean = dc.ConsultarDia_GS_OC_DET_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
+                    List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean = cc.ConsultarDia_GS_OC_CAB_OBS_COMPORTAMIENTOAction(fecha.Month + "", fecha.Year + "", fecha.Day + "");
 
 
-                           Console.WriteLine("cantidad total de categorias del dia de hoy: " + lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count);
-                           Console.WriteLine("cantidad total de zonas del dia de hoy: " + lstDia_m_ZONAS_Beans.Count);
-                           Console.WriteLine("cantidad total de actividad del dia de hoy: " + lstDia_MCO_ACTIVIDAD_Bean.Count);
-                           Console.WriteLine("cantidad total de usuarios del dia de hoy: " + lstDia_ADM_Usuarios_Bean.Count);
-                           Console.WriteLine("cantidad total de trab del dia de hoy: " + lstDia_MRH_TRAB_COMP_Bean.Count);
-                           Console.WriteLine("cantidad total de labores mina del dia de hoy: " + lstDia_MPM_Labores_Mina_Bean.Count);
-                           Console.WriteLine("cantidad total de provedores del dia hoy: " + lstDia_MCP_PROVEEDORES_Bean.Count);
-                           Console.WriteLine("cantidad total de detalles del dia de hoy: " + lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean.Count);
-                           Console.WriteLine("cantidad total de cabeceras del dia de hoy: " + lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count);
-                            Console.WriteLine("cantidad total de procesos: " + lstM_PROCESOS_SIG_DPTOS.Count);
+                    Console.WriteLine("cantidad total de categorias del dia de hoy: " + lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count);
+                    Console.WriteLine("cantidad total de zonas del dia de hoy: " + lstDia_m_ZONAS_Beans.Count);
+                    Console.WriteLine("cantidad total de actividad del dia de hoy: " + lstDia_MCO_ACTIVIDAD_Bean.Count);
+                    Console.WriteLine("cantidad total de usuarios del dia de hoy: " + lstDia_ADM_Usuarios_Bean.Count);
+                    Console.WriteLine("cantidad total de trab del dia de hoy: " + lstDia_MRH_TRAB_COMP_Bean.Count);
+                    Console.WriteLine("cantidad total de labores mina del dia de hoy: " + lstDia_MPM_Labores_Mina_Bean.Count);
+                    Console.WriteLine("cantidad total de provedores del dia hoy: " + lstDia_MCP_PROVEEDORES_Bean.Count);
+                    Console.WriteLine("cantidad total de detalles del dia de hoy: " + lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean.Count);
+                    Console.WriteLine("cantidad total de cabeceras del dia de hoy: " + lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count);
+                    Console.WriteLine("cantidad total de procesos: " + lstM_PROCESOS_SIG_DPTOS.Count);
 
-                    /************************ ENVIANDO  CATEGORIAS DIARIO**************************/
+                    ///************************ ENVIANDO  CATEGORIAS DIARIO**************************
 
                     List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean> lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send = new List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean>();
                     contTotal = lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count;
@@ -485,26 +500,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de categorias");
                     foreach (MGS_OC_CATEGORIA_ACTO_CONDICION_Bean bean in lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean)
                     {
-                        if (lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstDia_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean.Count > 20)
                         {
-                            lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
-                            cont = 0;
-                            lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send = new List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
+                                cont = 0;
+                                lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send = new List<MGS_OC_CATEGORIA_ACTO_CONDICION_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MGS_OC_CATEGORIA_ACTO_CONDICION", JsonConvert.SerializeObject(lstMes_MGS_OC_CATEGORIA_ACTO_CONDICION_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -515,7 +531,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<-- datos de categorias enviados ");
                     cont = 0;
 
-                    /************************ ENVIANDO ZONAS DIARIO **************************/
+                    ///*********************** ENVIANDO ZONAS DIARIO **************************
 
                     List<M_ZONAS_Bean> m_ZONAS_Beans_send = new List<M_ZONAS_Bean>();
                     contTotal = lstDia_m_ZONAS_Beans.Count;
@@ -524,26 +540,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de zonas");
                     foreach (M_ZONAS_Bean bean in lstDia_m_ZONAS_Beans)
                     {
-                        if (lstDia_m_ZONAS_Beans.Count > 20) { 
-                        if (cont < 20)
+                        if (lstDia_m_ZONAS_Beans.Count > 20)
                         {
-                            m_ZONAS_Beans_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            m_ZONAS_Beans_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_ZONAS", JsonConvert.SerializeObject(m_ZONAS_Beans_send));
-                            cont = 0;
-                            m_ZONAS_Beans_send = new List<M_ZONAS_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                m_ZONAS_Beans_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                m_ZONAS_Beans_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_ZONAS", JsonConvert.SerializeObject(m_ZONAS_Beans_send));
+                                cont = 0;
+                                m_ZONAS_Beans_send = new List<M_ZONAS_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_ZONAS", JsonConvert.SerializeObject(m_ZONAS_Beans_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_ZONAS", JsonConvert.SerializeObject(m_ZONAS_Beans_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -556,7 +573,7 @@ namespace ConsoleApp2
                     cont = 0;
 
 
-                    /************************ ENVIANDO ACTIVIDAD DIARIO **************************/
+                    ///*********************** ENVIANDO ACTIVIDAD DIARIO **************************
 
                     List<MCO_ACTIVIDAD_Bean> MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
                     contTotal = lstDia_MCO_ACTIVIDAD_Bean.Count;
@@ -565,26 +582,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de actividad");
                     foreach (MCO_ACTIVIDAD_Bean bean in lstDia_MCO_ACTIVIDAD_Bean)
                     {
-                        if (lstDia_MCO_ACTIVIDAD_Bean.Count > 20) {
-                        if (cont < 20)
+                        if (lstDia_MCO_ACTIVIDAD_Bean.Count > 20)
                         {
-                            MCO_ACTIVIDAD_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MCO_ACTIVIDAD_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
-                            cont = 0;
-                            MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MCO_ACTIVIDAD_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MCO_ACTIVIDAD_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
+                                cont = 0;
+                                MCO_ACTIVIDAD_Bean_send = new List<MCO_ACTIVIDAD_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCO_ACTIVIDAD", JsonConvert.SerializeObject(MCO_ACTIVIDAD_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -596,7 +614,7 @@ namespace ConsoleApp2
                     cont = 0;
 
 
-                    /************************ ENVIANDO USUARIOS DIARIO **************************/
+                    ///************************ ENVIANDO USUARIOS DIARIO **************************
 
                     List<ADM_Usuarios_Bean> ADM_Usuarios_Bean_send = new List<ADM_Usuarios_Bean>();
                     contTotal = lstDia_ADM_Usuarios_Bean.Count;
@@ -605,26 +623,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de usuario");
                     foreach (ADM_Usuarios_Bean bean in lstDia_ADM_Usuarios_Bean)
                     {
-                        if (lstDia_ADM_Usuarios_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstDia_ADM_Usuarios_Bean.Count > 20)
                         {
-                            ADM_Usuarios_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            ADM_Usuarios_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
-                            cont = 0;
-                            ADM_Usuarios_Bean_send = new List<ADM_Usuarios_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                ADM_Usuarios_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                ADM_Usuarios_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
+                                cont = 0;
+                                ADM_Usuarios_Bean_send = new List<ADM_Usuarios_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/ADM_Usuarios", JsonConvert.SerializeObject(ADM_Usuarios_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -635,7 +654,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de usuarios enviados ");
                     cont = 0;
 
-                    /************************ ENVIANDO trabajos DIARIO **************************/
+                    ///************************ ENVIANDO trabajos DIARIO *************************
 
                     List<MRH_TRAB_COMP_Bean> MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
                     contTotal = lstDia_MRH_TRAB_COMP_Bean.Count;
@@ -644,26 +663,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de trabajos");
                     foreach (MRH_TRAB_COMP_Bean bean in lstDia_MRH_TRAB_COMP_Bean)
                     {
-                        if (lstDia_MRH_TRAB_COMP_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstDia_MRH_TRAB_COMP_Bean.Count > 20)
                         {
-                            MRH_TRAB_COMP_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MRH_TRAB_COMP_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
-                            cont = 0;
-                            MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MRH_TRAB_COMP_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MRH_TRAB_COMP_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
+                                cont = 0;
+                                MRH_TRAB_COMP_Bean_send = new List<MRH_TRAB_COMP_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MRH_TRAB_COMP", JsonConvert.SerializeObject(MRH_TRAB_COMP_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -674,7 +694,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de trabajos enviados ");
                     cont = 0;
 
-                    /************************ ENVIANDO Labores DIARIO **************************/
+                    ///************************ ENVIANDO Labores DIARIO **************************
                     List<MPM_Labores_Mina_Bean> MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
                     contTotal = lstDia_MPM_Labores_Mina_Bean.Count;
                     Console.WriteLine("\n");
@@ -685,25 +705,25 @@ namespace ConsoleApp2
                         if (lstDia_MPM_Labores_Mina_Bean.Count > 20)
                         {
 
-                        if (cont < 20)
-                        {
-                            MPM_Labores_Mina_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MPM_Labores_Mina_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
-                            cont = 0;
-                            MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MPM_Labores_Mina_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MPM_Labores_Mina_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
+                                cont = 0;
+                                MPM_Labores_Mina_Bean_send = new List<MPM_Labores_Mina_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MPM_Labores_Mina", JsonConvert.SerializeObject(MPM_Labores_Mina_Bean_send));
+                                auxCont++;
+                            }
 
                         }
                         else
@@ -715,7 +735,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de trabajos minas ");
                     cont = 0;
 
-                    /************************ ENVIANDO Proveedores DIARIO **************************/
+                    ///************************ ENVIANDO Proveedores DIARIO **************************
 
                     List<MCP_PROVEEDORES_Bean> MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
                     contTotal = lstDia_MCP_PROVEEDORES_Bean.Count;
@@ -724,26 +744,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de proveedores");
                     foreach (MCP_PROVEEDORES_Bean bean in lstDia_MCP_PROVEEDORES_Bean)
                     {
-                        if (lstDia_MCP_PROVEEDORES_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstDia_MCP_PROVEEDORES_Bean.Count > 20)
                         {
-                            MCP_PROVEEDORES_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            MCP_PROVEEDORES_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
-                            cont = 0;
-                            MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                MCP_PROVEEDORES_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                MCP_PROVEEDORES_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
+                                cont = 0;
+                                MCP_PROVEEDORES_Bean_send = new List<MCP_PROVEEDORES_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/MCP_PROVEEDORES", JsonConvert.SerializeObject(MCP_PROVEEDORES_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -754,7 +775,7 @@ namespace ConsoleApp2
                     Console.WriteLine("<--  datos de proveedores enviados ");
                     cont = 0;
 
-                    /************************ ENVIANDO detalles comportamiento DIARIO **************************/
+                    ///*********************** ENVIANDO detalles comportamiento DIARIO **************************
                     List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
                     contTotal = lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean.Count;
                     Console.WriteLine("\n");
@@ -762,26 +783,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de detalles");
                     foreach (GS_OC_DET_OBS_COMPORTAMIENTO_Bean bean in lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean)
                     {
-                        if (lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstGSDia_OC_DET_OBS_COMPORTAMIENTO_Bean.Count > 20)
                         {
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
-                            cont = 0;
-                            GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
+                                cont = 0;
+                                GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_DET_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_DET_OBS_COMPORTAMIENTO_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -794,7 +816,7 @@ namespace ConsoleApp2
                     cont = 0;
 
 
-                    /************************ ENVIANDO cabecera DIARIO **************************/
+                    //*********************** ENVIANDO cabecera DIARIO *************************
                     List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean>();
                     contTotal = lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count;
                     Console.WriteLine("\n");
@@ -802,26 +824,27 @@ namespace ConsoleApp2
                     Console.WriteLine("--> enviando datos de cabeceras");
                     foreach (GS_OC_CAB_OBS_COMPORTAMIENTO_Bean bean in lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean)
                     {
-                        if (lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count > 20) { 
-                        if (cont < 20)
+                        if (lstGSDia_GS_OC_CAB_OBS_COMPORTAMIENTO_Bean.Count > 20)
                         {
-                            GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
-                            cont++;
-                        }
-                        else
-                        {
-                            GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
-                            contTotal = contTotal - (cont + 1);
-                            PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_CAB_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send));
-                            cont = 0;
-                            GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean>();
-                        }
+                            if (cont < 20)
+                            {
+                                GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                cont++;
+                            }
+                            else
+                            {
+                                GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send.Add(bean);
+                                contTotal = contTotal - (cont + 1);
+                                PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_CAB_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send));
+                                cont = 0;
+                                GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send = new List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean>();
+                            }
 
-                        if (cont <= 19 && contTotal < 20)
-                        {
-                            if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_CAB_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send));
-                            auxCont++;
-                        }
+                            if (cont <= 19 && contTotal < 20)
+                            {
+                                if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/GS_OC_CAB_OBS_COMPORTAMIENTO", JsonConvert.SerializeObject(GS_OC_CAB_OBS_COMPORTAMIENTO_Bean_send));
+                                auxCont++;
+                            }
                         }
                         else
                         {
@@ -836,32 +859,38 @@ namespace ConsoleApp2
 
                 }
 
-/************************ ENVIANDO PROCESOS **************************/
+                //*********************** ENVIANDO PROCESOS *************************
 
                 List<M_PROCESOS_SIG_DPTOS_Bean> lstM_PROCESOS_SIG_DPTOS_send = new List<M_PROCESOS_SIG_DPTOS_Bean>();
                 contTotal = lstM_PROCESOS_SIG_DPTOS.Count;
                 Console.WriteLine("\n");
                 auxCont = 0;
                 Console.WriteLine("--> enviando datos de procesos");
-                foreach (M_PROCESOS_SIG_DPTOS_Bean bean in lstM_PROCESOS_SIG_DPTOS){
+                foreach (M_PROCESOS_SIG_DPTOS_Bean bean in lstM_PROCESOS_SIG_DPTOS)
+                {
 
-                    if (lstM_PROCESOS_SIG_DPTOS.Count > 20) { 
-                        if (cont < 20) {
+                    if (lstM_PROCESOS_SIG_DPTOS.Count > 20)
+                    {
+                        if (cont < 20)
+                        {
                             lstM_PROCESOS_SIG_DPTOS_send.Add(bean);
                             cont++;
-                        }else {
+                        }
+                        else
+                        {
                             lstM_PROCESOS_SIG_DPTOS_send.Add(bean);
-                            contTotal = contTotal - (cont+1);
+                            contTotal = contTotal - (cont + 1);
                             PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_PROCESOS_SIG_DPTOS", JsonConvert.SerializeObject(lstM_PROCESOS_SIG_DPTOS_send));
                             cont = 0;
                             lstM_PROCESOS_SIG_DPTOS_send = new List<M_PROCESOS_SIG_DPTOS_Bean>();
                         }
-                    
-                        if (cont <= 19 && contTotal <20) {
+
+                        if (cont <= 19 && contTotal < 20)
+                        {
                             if (auxCont == contTotal) PostRequest("http://beta.focusit.pe/poderosa/ext/setData/M_PROCESOS_SIG_DPTOS", JsonConvert.SerializeObject(lstM_PROCESOS_SIG_DPTOS_send));
                             auxCont++;
                         }
-                        }
+                    }
                     else
                     {
                         lstM_PROCESOS_SIG_DPTOS_send.Add(bean);
@@ -871,16 +900,16 @@ namespace ConsoleApp2
                 }
                 Console.WriteLine("<-- datos de procesos enviados ");
                 cont = 0;
+                */
 
-
-                // GetRequest("http://beta.focusit.pe/poderosa/ext/getData?token=BAE3B2E77A959BABFC1161C6874");
-                Thread.Sleep(5000);
+                 GetRequest("http://beta.focusit.pe/poderosa/ext/getData?token=BAE3B2E77A959BABFC1161C6874");
+                Thread.Sleep(99999999);
             }
             Console.ReadKey();
         }
 
         //get
-        async static void GetRequest (string url)
+        async static void GetRequest(string url)
         {
             Console.WriteLine("**** RECIBIENDO DATOS DE DETALLE Y CABEZERA DE LA NUBE ***");
             using (HttpClient client = new HttpClient())
@@ -889,23 +918,27 @@ namespace ConsoleApp2
                 {
                     using (HttpContent content = response.Content)
                     {
-                        string mycontent                        = await content.ReadAsStringAsync();
-                        var responsee                           = JsonConvert.DeserializeObject<JObject>(mycontent);
-                        var data_GS_OC_CAB_OBS_COMPORTAMIENTO   = (JArray)responsee["GS_OC_CAB_OBS_COMPORTAMIENTO"];
-                        var data_GS_OC_DET_OBS_COMPORTAMIENTO   = (JArray)responsee["GS_OC_DET_OBS_COMPORTAMIENTO"];
+                        string mycontent = await content.ReadAsStringAsync();
+                        var responsee = JsonConvert.DeserializeObject<JObject>(mycontent);
+                        var data_GS_OC_CAB_OBS_COMPORTAMIENTO = (JArray)responsee["GS_OC_CAB_OBS_COMPORTAMIENTO"];
+                        var data_GS_OC_DET_OBS_COMPORTAMIENTO = (JArray)responsee["GS_OC_DET_OBS_COMPORTAMIENTO"];
 
-                        JArray ja_GS_OC_CAB_OBS_COMPORTAMIENTO  = data_GS_OC_CAB_OBS_COMPORTAMIENTO;
-                        JArray ja_GS_OC_DET_OBS_COMPORTAMIENTO  = data_GS_OC_DET_OBS_COMPORTAMIENTO;
+                        JArray ja_GS_OC_CAB_OBS_COMPORTAMIENTO = data_GS_OC_CAB_OBS_COMPORTAMIENTO;
+                        JArray ja_GS_OC_DET_OBS_COMPORTAMIENTO = data_GS_OC_DET_OBS_COMPORTAMIENTO;
 
                         List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean> lista_det = new List<GS_OC_DET_OBS_COMPORTAMIENTO_Bean>();
                         List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean> lista_cab = new List<GS_OC_CAB_OBS_COMPORTAMIENTO_Bean>();
+                        List<string> idCab = new List<string>();
+                        List<string> idDet = new List<string>();
 
 
                         //deserializa json de cabeceras
                         foreach (JObject item in ja_GS_OC_CAB_OBS_COMPORTAMIENTO.Children())
-                            {
+                        {
                             GS_OC_CAB_OBS_COMPORTAMIENTO_Bean cat_observaciones = new GS_OC_CAB_OBS_COMPORTAMIENTO_Bean();
-                            cat_observaciones.CIA_ID = item.GetValue("CIA_ID") +"";
+                            //cat_observaciones.ID = ;
+                            idCab.Add(item.GetValue("id") + "");
+                            cat_observaciones.CIA_ID = item.GetValue("CIA_ID") + "";
                             cat_observaciones.ANNOMES = item.GetValue("ANNOMES") + "";
                             cat_observaciones.OBSERVACION_ID = item.GetValue("OBSERVACION_ID") + "";
                             cat_observaciones.TRAB_ID = item.GetValue("TRAB_ID") + "";
@@ -928,14 +961,16 @@ namespace ConsoleApp2
                             cat_observaciones.PROVEEDOR_ID_OBSERVADOS = item.GetValue("PROVEEDOR_ID_OBSERVADOS") + "";
                             cat_observaciones.ESTADO = item.GetValue("ESTADO") + "";
                             lista_cab.Add(cat_observaciones);
-                            }
-                       
+                        }
+
 
                         //deserializa json de detalles
                         foreach (JObject item in ja_GS_OC_DET_OBS_COMPORTAMIENTO.Children())
                         {
                             GS_OC_DET_OBS_COMPORTAMIENTO_Bean det_observacion = new GS_OC_DET_OBS_COMPORTAMIENTO_Bean();
 
+                           // det_observacion.ID = item.GetValue("id") + "";
+                            idDet.Add(item.GetValue("id") + "");
                             det_observacion.CIA_ID = item.GetValue("CIA_ID") + "";
                             det_observacion.ANNOMES = item.GetValue("ANNOMES") + "";
                             det_observacion.OBSERVACION_ID = item.GetValue("OBSERVACION_ID") + "";
@@ -951,44 +986,76 @@ namespace ConsoleApp2
                             det_observacion.FECHA_MODI = item.GetValue("FECHA_MODI") + "";
                             lista_det.Add(det_observacion);
                         }
-                        
+
 
                         cc.updateOrCreate_GS_OC_CAB_OBS_COMPORTAMIENTO(lista_cab);
                         dc.updateOrCreate_GS_OC_DET_OBS_COMPORTAMIENTO(lista_det);
                         Console.WriteLine("cantidad de detalles registrados/modificados :  " + lista_det.Count);
                         Console.WriteLine("cantidad de cabeceras registradas/modificados:  " + lista_cab.Count);
+                       // Console.WriteLine("ids det: "+idDet.Count+" id cab: "+idCab.Count);
+                        PostRequestState("http://beta.focusit.pe/poderosa/ext/setState?token=BAE3B2E77A959BABFC1161C6874", JsonConvert.SerializeObject(idCab), JsonConvert.SerializeObject(idDet));
+                    
                     }
                 }
             }
         }
 
         //post
-        async static void PostRequest(string url,String items)
+        async static void PostRequest(string url, String items)
         {
             IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<string, string>>()
             {
-                
+
                 new KeyValuePair<string, string>("items",items),
                 new KeyValuePair<string, string>("token","BAE3B2E77A959BABFC1161C6874")
-                
+
             };
             HttpContent q = new FormUrlEncodedContent(queries);
 
             using (HttpClient client = new HttpClient())
             {
-                using (HttpResponseMessage response = await client.PostAsync(url,q))
+                using (HttpResponseMessage response = await client.PostAsync(url, q))
                 {
                     using (HttpContent content = response.Content)
                     {
                         string mycontent = await content.ReadAsStringAsync();
                         HttpContentHeaders headers = content.Headers;
-                       // Console.WriteLine(mycontent);
+                        // Console.WriteLine(mycontent);
                     }
                 }
             }
         }
 
+        //post
+        async static void PostRequestState(string url, String cab, String det)
+        {
+           
+            IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<string, string>>()
+            {
+
+                new KeyValuePair<string, string>("GS_OC_CAB_OBS_COMPORTAMIENTO",cab),
+                new KeyValuePair<string, string>("GS_OC_DET_OBS_COMPORTAMIENTO",det)
+
+            };
+            HttpContent q = new FormUrlEncodedContent(queries);
+
+            using (HttpClient client = new HttpClient())
+            {
+                using (HttpResponseMessage response = await client.PostAsync(url, q))
+                {
+                    using (HttpContent content = response.Content)
+                    {
+                        string mycontent = await content.ReadAsStringAsync();
+                        HttpContentHeaders headers = content.Headers;
+                      //  Console.WriteLine(mycontent);
+                    }
+                }
+            }
+        }
+
+    
+
 
     }
-    }
+}
 
